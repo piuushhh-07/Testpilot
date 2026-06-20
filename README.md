@@ -131,4 +131,6 @@ Then drop your logo file into `frontend/public/logo.png`.
 ---
 
 Built for AIBoomi Startup Weekend (4th Edition) — Bengaluru, June 20–21.
-testing cicd workflows 
+
+testing cicd workflows triggers
+
