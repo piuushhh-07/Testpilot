@@ -1,0 +1,51 @@
+name: TestPilot Auto Test Generation
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  generate-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Call TestPilot API
+        run: |
+          curl -X POST https://testpilot-six.vercel.app/api/generate \
+            -H "Content-Type: application/json" \
+            -d '{
+              "feature": "User login form with email and password validation",
+              "testType": "All Types",
+              "count": 5
+            }' \
+            -o testpilot-output.json
+
+      - name: Show generated test cases
+        run: cat testpilot-output.json
+
+      - name: Post results as PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const output = fs.readFileSync('testpilot-output.json', 'utf8');
+            const data = JSON.parse(output);
+            const testCases = data.testCases || [];
+            let comment = "## 🤖 TestPilot Generated Test Cases\n\n";
+            testCases.forEach(tc => {
+              comment += `**${tc.id}**: ${tc.title}\n- Type: ${tc.type} | Priority: ${tc.priority}\n\n`;
+            });
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+
+      - name: Upload as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: testpilot-generated-tests
+          path: testpilot-output.json
