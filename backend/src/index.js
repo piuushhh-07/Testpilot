@@ -18,7 +18,7 @@ app.get("/health", (req, res) => {
 });
 
 // Generate test cases
-app.post(`${API_URL}/api/generate`, async (req, res) => {
+app.post(`/api/generate`, async (req, res) => {
   const { feature, testType, count = 8 } = req.body;
 
   if (!feature || feature.trim().length < 5) {
@@ -82,7 +82,7 @@ Be specific, practical, and professional. Cover happy paths, edge cases, and fai
 });
 
 // Export as CSV (server-side generation)
-app.post("${API_URL}/api/export/csv", (req, res) => {
+app.post("/api/export/csv", (req, res) => {
   const { testCases, featureName } = req.body;
   if (!testCases?.length) return res.status(400).json({ error: "No test cases to export." });
 
@@ -102,7 +102,7 @@ app.post("${API_URL}/api/export/csv", (req, res) => {
 });
 
 // Convert test cases into automation code (Playwright or Cypress)
-app.post("${API_URL}/api/export/code", async (req, res) => {
+app.post("/api/export/code", async (req, res) => {
   const { testCases, framework = "playwright", featureName } = req.body;
 
   if (!testCases?.length) {
@@ -135,7 +135,7 @@ Return ONLY the code. No markdown fences, no explanation, no preamble — just t
 
   const userPrompt = `Feature: ${featureName || "Untitled feature"}
 
-Convert these test cases into ${framework === "playwright" ? "Playwright" : "Cypress"} automation code:
+Convert these test cases into ${framework} automation code:
 
 ${testCasesSummary}`;
 
