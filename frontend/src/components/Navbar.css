@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 22, 40, 0.95);
+  background: rgba(13, 56, 77, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
@@ -58,16 +58,16 @@
 }
 
 .brand-name {
-  font-size: 17px;
+  font-size: 25px;
   font-weight: 600;
-  color: var(--white);
+  color:rgb(133, 196, 255);
   letter-spacing: -0.02em;
   line-height: 1;
 }
 
 .brand-by {
-  font-size: 11px;
-  color: var(--text-muted);
+  font-size: 15px;
+  color:rgb(255, 187, 41);
   line-height: 1;
 }
 

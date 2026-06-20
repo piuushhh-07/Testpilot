@@ -2,14 +2,14 @@ import React from "react";
 import "./Hero.css";
 
 const STAR_POSITIONS = [
-  { top: "12%", left: "8%", size: 3, delay: "0s" },
-  { top: "20%", left: "85%", size: 4, delay: "0.4s" },
-  { top: "65%", left: "5%", size: 2, delay: "0.8s" },
-  { top: "75%", left: "92%", size: 3, delay: "1.2s" },
-  { top: "8%", left: "45%", size: 2, delay: "1.6s" },
-  { top: "50%", left: "95%", size: 3, delay: "2s" },
-  { top: "85%", left: "30%", size: 2, delay: "0.6s" },
-  { top: "30%", left: "15%", size: 3, delay: "1s" },
+  { top: "12%", left: "8%", size: 8, delay: "0s" },
+  { top: "20%", left: "85%", size: 10, delay: "0.4s" },
+  { top: "65%", left: "5%", size: 6, delay: "0.8s" },
+  { top: "75%", left: "92%", size: 9, delay: "1.2s" },
+  { top: "8%", left: "45%", size: 5, delay: "1.6s" },
+  { top: "50%", left: "95%", size: 7, delay: "2s" },
+  { top: "85%", left: "30%", size: 6, delay: "0.6s" },
+  { top: "30%", left: "15%", size: 8, delay: "1s" },
 ];
 
 export default function Hero() {
