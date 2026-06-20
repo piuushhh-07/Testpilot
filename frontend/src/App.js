@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import "./App.css";
 
 export default function App() {
-  const API_URL = "https://testpilot-six.vercel.app";
+  const API_URL = "https://testpilot-ruby.vercel.app";
   const [testCases, setTestCases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
