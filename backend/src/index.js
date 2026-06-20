@@ -58,7 +58,7 @@ Be specific, practical, and professional. Cover happy paths, edge cases, and fai
         { role: "user", content: userPrompt },
       ],
       temperature: 0.4,
-      max_tokens: 3000,
+      max_tokens: 1500,
     });
 
     let raw = completion.choices[0].message.content.trim();
@@ -141,7 +141,7 @@ ${testCasesSummary}`;
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "openai/gpt-4o",
+      model: "meta-llama/llama-3.1-8b-instruct",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
