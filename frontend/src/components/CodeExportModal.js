@@ -1,6 +1,20 @@
 import React, { useState } from "react";
 import "./CodeExportModal.css";
 
+const FRAMEWORK_LABELS = {
+  playwright: "Playwright",
+  cypress: "Cypress",
+  selenium: "Selenium",
+  jest: "Jest",
+};
+
+const FRAMEWORK_EXTENSIONS = {
+  playwright: "spec.ts",
+  cypress: "cy.js",
+  selenium: "test.js",
+  jest: "test.js",
+};
+
 export default function CodeExportModal({ testCases, featureName, onClose }) {
   const [framework, setFramework] = useState("playwright");
   const [loading, setLoading] = useState(false);
@@ -44,7 +58,7 @@ export default function CodeExportModal({ testCases, featureName, onClose }) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = filename || "testpilot_tests.spec.ts";
+    a.download = filename || `testpilot_tests.${FRAMEWORK_EXTENSIONS[framework] || "spec.ts"}`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -67,20 +81,16 @@ export default function CodeExportModal({ testCases, featureName, onClose }) {
         </div>
 
         <div className="framework-tabs">
-          <button
-            className={`framework-tab ${framework === "playwright" ? "framework-tab-active" : ""}`}
-            onClick={() => generateCode("playwright")}
-            disabled={loading}
-          >
-            Playwright
-          </button>
-          <button
-            className={`framework-tab ${framework === "cypress" ? "framework-tab-active" : ""}`}
-            onClick={() => generateCode("cypress")}
-            disabled={loading}
-          >
-            Cypress
-          </button>
+          {Object.keys(FRAMEWORK_LABELS).map((fw) => (
+            <button
+              key={fw}
+              className={`framework-tab ${framework === fw ? "framework-tab-active" : ""}`}
+              onClick={() => generateCode(fw)}
+              disabled={loading}
+            >
+              {FRAMEWORK_LABELS[fw]}
+            </button>
+          ))}
         </div>
 
         <div className="modal-body">
@@ -91,7 +101,7 @@ export default function CodeExportModal({ testCases, featureName, onClose }) {
               </svg>
               <p>Pick a framework above to generate code from your {testCases.length} test cases.</p>
               <button className="modal-generate-btn" onClick={() => generateCode(framework)}>
-                Generate {framework === "playwright" ? "Playwright" : "Cypress"} code
+                Generate {FRAMEWORK_LABELS[framework]} code
               </button>
             </div>
           )}
@@ -99,7 +109,7 @@ export default function CodeExportModal({ testCases, featureName, onClose }) {
           {loading && (
             <div className="modal-loading">
               <span className="modal-spinner" />
-              <p>Converting test cases into {framework === "playwright" ? "Playwright" : "Cypress"} code...</p>
+              <p>Converting test cases into {FRAMEWORK_LABELS[framework]} code...</p>
             </div>
           )}
 

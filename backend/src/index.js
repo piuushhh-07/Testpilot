@@ -108,9 +108,9 @@ app.post("/api/export/code", async (req, res) => {
   if (!testCases?.length) {
     return res.status(400).json({ error: "No test cases to convert." });
   }
-  if (!["playwright", "cypress"].includes(framework)) {
-    return res.status(400).json({ error: "Framework must be 'playwright' or 'cypress'." });
-  }
+  if (!["playwright", "cypress", "selenium", "jest"].includes(framework)) {
+    return res.status(400).json({ error: "Framework must be 'playwright', 'cypress', 'selenium', or 'jest'." });
+}
 
   const testCasesSummary = testCases
     .map(
@@ -119,11 +119,14 @@ app.post("/api/export/code", async (req, res) => {
     )
     .join("\n\n");
 
-  const frameworkInstructions =
-    framework === "playwright"
-      ? `Use Playwright Test syntax (@playwright/test). Use test.describe and test() blocks. Use page.goto, page.fill, page.click, expect(page.locator(...)).toBeVisible() etc. Use realistic but generic CSS selectors / data-testid placeholders since the actual DOM is unknown.`
-      : `Use Cypress syntax. Use describe() and it() blocks. Use cy.visit, cy.get, cy.type, cy.click, cy.should etc. Use realistic but generic CSS selectors / data-testid placeholders since the actual DOM is unknown.`;
+ const frameworkMap = {
+  playwright: `Use Playwright Test syntax (@playwright/test). Use test.describe and test() blocks. Use page.goto, page.fill, page.click, expect(page.locator(...)).toBeVisible() etc. Use realistic but generic CSS selectors / data-testid placeholders since the actual DOM is unknown.`,
+  cypress: `Use Cypress syntax. Use describe() and it() blocks. Use cy.visit, cy.get, cy.type, cy.click, cy.should etc. Use realistic but generic CSS selectors / data-testid placeholders since the actual DOM is unknown.`,
+  selenium: `Use Selenium WebDriver syntax in JavaScript (selenium-webdriver package). Use describe/it with Mocha-style structure, driver.get, driver.findElement(By.css(...)), driver.findElement(...).click(), assert/expect for assertions. Use realistic but generic CSS selectors / data-testid placeholders since the actual DOM is unknown.`,
+  jest: `Use Jest with Testing Library syntax (@testing-library/react or @testing-library/dom depending on context). Use describe() and test() blocks, render(), screen.getByTestId(...), fireEvent or userEvent, expect(...).toBeInTheDocument() etc. Use realistic but generic data-testid placeholders since the actual DOM is unknown.`,
+};
 
+const frameworkInstructions = frameworkMap[framework];
   const systemPrompt = `You are a senior automation QA engineer. You convert manual test cases into clean, runnable automation test code.
 ${frameworkInstructions}
 Add a short comment above each test linking back to its test case ID (e.g. // TC-001).
@@ -138,19 +141,25 @@ ${testCasesSummary}`;
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "openai/gpt-4o",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
       ],
       temperature: 0.3,
-      max_tokens: 3500,
+      max_tokens: 1500,
     });
 
     let code = completion.choices[0].message.content.trim();
     code = code.replace(/```[a-z]*\n?/gi, "").replace(/```/g, "").trim();
 
-    const extension = framework === "playwright" ? "spec.ts" : "cy.js";
+    const extensionMap = {
+  playwright: "spec.ts",
+  cypress: "cy.js",
+  selenium: "test.js",
+  jest: "test.js",
+};
+const extension = extensionMap[framework];
     const filename = `testpilot_${(featureName || "tests").replace(/\s+/g, "_").toLowerCase()}.${extension}`;
 
     res.json({ success: true, framework, code, filename });
