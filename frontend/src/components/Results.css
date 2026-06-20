@@ -1,3 +1,22 @@
+@keyframes rowIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.results-header,
+.priority-summary,
+.table-card {
+  opacity: 0;
+  animation: rowIn 0.4s ease forwards;
+}
+
+.priority-summary { animation-delay: 0.1s; }
+.table-card { animation-delay: 0.18s; }
+
+.test-row {
+  opacity: 0;
+  animation: rowIn 0.35s ease forwards;
+}
 .results {
   padding: 0 2rem 3rem;
 }
@@ -160,7 +179,7 @@
 }
 
 .col-id { width: 90px; }
-.col-title { }
+.col-title {width: 100%; }
 .col-type { width: 130px; }
 .col-priority { width: 90px; }
 .col-expand { width: 44px; text-align: center; }

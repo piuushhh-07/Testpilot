@@ -111,10 +111,10 @@ export default function Results({ testCases, onExport, featureName }) {
                   const isOpen = expanded === tc.id;
                   return (
                     <React.Fragment key={tc.id}>
-                      <tr
-                        className={`test-row ${isOpen ? "test-row-open" : ""}`}
-                        onClick={() => toggleRow(tc.id)}
-                      >
+                     <tr
+  className={`test-row ${isOpen ? "test-row-open" : ""}`}
+  onClick={() => toggleRow(tc.id)}
+>
                         <td className="col-id">
                           <span className="tc-id">{tc.id}</span>
                         </td>
