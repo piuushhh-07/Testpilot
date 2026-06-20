@@ -16,6 +16,7 @@ const FRAMEWORK_EXTENSIONS = {
 };
 
 export default function CodeExportModal({ testCases, featureName, onClose }) {
+  const API_URL = "https://testpilot-ruby.vercel.app";
   const [framework, setFramework] = useState("playwright");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -30,7 +31,7 @@ export default function CodeExportModal({ testCases, featureName, onClose }) {
     setCode("");
 
     try {
-      const res = await fetch("/api/export/code", {
+    const res = await fetch(`${API_URL}/api/export/code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ testCases, framework: fw, featureName }),
