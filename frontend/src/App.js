@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import "./App.css";
 
 export default function App() {
+  const API_URL = "https://testpilot-six.vercel.app";
   const [testCases, setTestCases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -19,7 +20,7 @@ export default function App() {
     setFeatureName(feature.slice(0, 40));
 
     try {
-      const res = await fetch("/api/generate", {
+     const res = await fetch(`${API_URL}/api/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ feature, testType, count }),
@@ -42,7 +43,7 @@ export default function App() {
 
   const handleExport = async () => {
     try {
-      const res = await fetch("/api/export/csv", {
+      const res = await fetch(`${API_URL}/api/export/csv`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ testCases, featureName }),
