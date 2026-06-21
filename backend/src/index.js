@@ -55,7 +55,7 @@ Be specific, practical, and professional. Cover happy paths, edge cases, and fai
 
   try {
     const completion = await openai.chat.completions.create({
-         model: "openai/gpt-4o",
+         model: "gpt-4o",
 
       messages: [
         { role: "system", content: systemPrompt },
@@ -145,7 +145,7 @@ ${testCasesSummary}`;
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "openai/gpt-4o",
+      model: "gpt-4o",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
