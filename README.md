@@ -13,13 +13,14 @@ testpilot/
 │   ├── package.json
 │   └── .env.example
 └── frontend/         → React website (what users see)
-    ├── src/
-    │   ├── components/
-    │   ├── App.js
-    │   └── index.js
-    └── package.json
-```
-
+|    ├── src/
+|    │   ├── components/
+|    │   ├── App.js
+|    │   └── index.js
+|    └── package.json
+├── .github/          → Node.js + Express server (talks to OpenAI)
+     ├── workflows/ 
+          ├── testpilot.yml  
 ---
 
 ## 🚀 How to Run This (Step by Step)

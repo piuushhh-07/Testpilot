@@ -1,3 +1,14 @@
+@media (max-width: 600px) {
+  .footer {
+    padding: 1.25rem 1.25rem;
+  }
+  .footer-inner {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
+
 .footer {
   margin-top: auto;
   border-top: 1px solid var(--border);
